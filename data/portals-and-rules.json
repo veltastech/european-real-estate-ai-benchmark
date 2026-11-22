@@ -1,0 +1,65 @@
+{
+  "verifiedAt": "2026-11-22",
+  "disclaimerEn": "Summary of public primary sources for operational reference. Not legal advice.",
+  "disclaimerEs": "Resumen de fuentes oficiales públicas como referencia operativa. No es asesoramiento jurídico.",
+  "regulations": [
+    {
+      "jurisdictionEn": "European Union (EU AI Act, Reg. 2024/1689, Art. 50(4))",
+      "jurisdictionEs": "Unión Europea (Reglamento de IA 2024/1689, art. 50.4)",
+      "effectiveDate": "2026-08-02",
+      "summaryEn": "Professional deployers publishing AI-manipulated photos that could pass for authentic real places (such as virtually furnished empty rooms) must clearly disclose AI modification at first exposure. Invisible watermarks alone do not suffice.",
+      "summaryEs": "Quien publica de forma profesional fotos modificadas con IA que pueden parecer reales (como pisos vacíos amueblados virtualmente) debe indicarlo de forma clara y visible desde el primer contacto. La marca de agua invisible por sí sola no basta.",
+      "sourceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+      "sourceUrlEs": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/spa"
+    },
+    {
+      "jurisdictionEn": "EU Consumer Law (Directive 2005/29/EC & national laws)",
+      "jurisdictionEs": "Consumo en la UE (Directiva 2005/29/CE y leyes nacionales)",
+      "effectiveDate": "2005-05-11",
+      "summaryEn": "Misleading commercial practices are prohibited across the EU (Spain Ley 3/1991 & RD 515/1989, Germany UWG § 5, France Code de la consommation L121-2, Italy Codice del consumo art. 21, Portugal Decreto-Lei 57/2008 art. 7). Staging must not alter floors, windows, views or defects.",
+      "summaryEs": "La publicidad engañosa está prohibida en toda la UE (España Ley 3/1991 y RD 515/1989, Alemania UWG § 5, Francia L121-2, Italia art. 21, Portugal art. 7.º). El staging no debe alterar suelos, ventanas, vistas ni desperfectos.",
+      "sourceUrl": "https://eur-lex.europa.eu/eli/dir/2005/29/oj/eng",
+      "sourceUrlEs": "https://eur-lex.europa.eu/eli/dir/2005/29/oj/spa"
+    },
+    {
+      "jurisdictionEn": "United Kingdom (DMCC Act 2024, s. 226)",
+      "jurisdictionEs": "Reino Unido (DMCC Act 2024, sección 226)",
+      "effectiveDate": "2025-04-06",
+      "summaryEn": "Prohibits misleading actions toward consumers. Clear disclosure and showing the unedited original remain the safest practice for virtually staged property listings.",
+      "summaryEs": "Prohíbe las acciones engañosas hacia los consumidores. Avisar con claridad y mostrar la foto original sin editar sigue siendo la práctica más segura en anuncios inmobiliarios.",
+      "sourceUrl": "https://www.legislation.gov.uk/ukpga/2024/13/section/226",
+      "sourceUrlEs": "https://www.legislation.gov.uk/ukpga/2024/13/section/226"
+    },
+    {
+      "jurisdictionEn": "California (AB 723, B&P Code § 10140.8)",
+      "jurisdictionEs": "California (AB 723, B&P Code § 10140.8)",
+      "effectiveDate": "2026-01-01",
+      "summaryEn": "Real estate agents publishing digitally altered listing images must include a disclosure statement alongside the image and provide access to the unaltered original.",
+      "summaryEs": "Los agentes inmobiliarios que publican imágenes alteradas digitalmente deben indicarlo junto a la imagen y facilitar acceso a la fotografía original sin alterar.",
+      "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=10140.8",
+      "sourceUrlEs": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=10140.8"
+    }
+  ],
+  "portals": [
+    {
+      "nameEn": "Idealista (Spain tools help)",
+      "nameEs": "Idealista (ayuda España)",
+      "formats": "JPG, JPEG, PNG, GIF",
+      "maxPhotoSize": "32 MB",
+      "limitsEn": "Up to 180 photos and 6 videos (up to 600 MB each). Offers explicit AI photo labelling on upload, displays a visible badge and runs automatic detection via C2PA and an internal classifier.",
+      "limitsEs": "Hasta 180 fotos y 6 vídeos (hasta 600 MB cada uno). Permite marcar fotos editadas con IA al subirlas, muestra una etiqueta visible y aplica detección automática por C2PA y modelo propio.",
+      "sourceUrl": "https://www.idealista.com/tools/centrodeayuda/articulos/identificacion-de-fotos-editadas-con-ia/",
+      "verifiedAt": "2026-11-17"
+    },
+    {
+      "nameEn": "ImmoScout24 (Germany)",
+      "nameEs": "ImmoScout24 (Alemania)",
+      "formats": "JPG, PNG",
+      "maxPhotoSize": "50 MB",
+      "limitsEn": "Recommends 4:3 landscape photos (731×550+); auto-crops other ratios from the center unless disabled in ScoutManager. Explicitly asks for no watermarks, frames or logos.",
+      "limitsEs": "Recomienda fotos horizontales 4:3; recorta otras proporciones desde el centro salvo que se desactive en ScoutManager. Pide no añadir marcas de agua, marcos ni logotipos.",
+      "sourceUrl": "https://www.immobilienscout24.de/anbieten/gewerbliche-anbieter/tipps/anwender-tipps/tipps-objektbilder.html",
+      "verifiedAt": "2026-11-17"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "european-real-estate-ai-benchmark",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Open, source-verified benchmark of real estate virtual staging and AI property video tools available in Europe (EU, EEA & UK).",
+  "license": "CC-BY-4.0",
+  "scripts": {
+    "build": "node scripts/build-and-verify.mjs",
+    "verify": "node scripts/build-and-verify.mjs --check-links"
+  }
+}
