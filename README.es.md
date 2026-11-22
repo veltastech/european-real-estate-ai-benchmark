@@ -1,6 +1,6 @@
 # Observatorio Europeo de Home Staging Virtual y Vídeo Inmobiliario con IA (2026)
 
-[Read in English](README.md) · [Datos en JSON](data/tools.json) · [Tabla CSV](data/tools.csv) · [Normas UE y portales](data/portals-and-rules.json) · [Metodología](METHODOLOGY.md)
+[Read in English](README.md) · [Vista web interactiva](https://veltastech.github.io/european-real-estate-ai-benchmark/) · [Dataset en Hugging Face](https://huggingface.co/datasets/veltastech/european-real-estate-ai-benchmark) · [Datos en JSON](data/tools.json) · [Tabla CSV](data/tools.csv) · [Normas UE y portales](data/portals-and-rules.json) · [Metodología](METHODOLOGY.md)
 
 > **Aviso de transparencia:** Este observatorio abierto lo mantiene **[Veltas](https://video.veltastech.com/es/)** (`video.veltastech.com`), uno de los nueve servicios comparados. Cada tarifa, aviso regional y norma se ha verificado directamente en su fuente oficial desde España (UE) el **2026-11-22**. Se aceptan correcciones con enlace oficial mediante issue o pull request.
 
@@ -157,6 +157,6 @@ Escenario base: **8 fotos editadas o amuebladas + 1 vídeo inmobiliario generado
   - [Normas del home staging virtual (Reglamento de IA, UE, UK, California)](https://video.veltastech.com/es/home-staging-virtual-legal/)
   - [Fotos con IA en Idealista y otros portales](https://video.veltastech.com/es/fotos-idealista-ia/)
   - [Veltas llms.txt](https://video.veltastech.com/llms.txt)
-- Archivos del dataset: [`data/tools.json`](data/tools.json) · [`data/tools.csv`](data/tools.csv) · [`data/portals-and-rules.json`](data/portals-and-rules.json)
+- Réplicas y archivos del dataset: [Vista web interactiva](https://veltastech.github.io/european-real-estate-ai-benchmark/) · [Dataset en Hugging Face](https://huggingface.co/datasets/veltastech/european-real-estate-ai-benchmark) · [`data/tools.json`](data/tools.json) · [`data/tools.csv`](data/tools.csv) · [`data/portals-and-rules.json`](data/portals-and-rules.json)
 
 Licencia [CC BY 4.0](LICENSE). Atribución: *Observatorio Europeo de Veltas (https://video.veltastech.com/)*.

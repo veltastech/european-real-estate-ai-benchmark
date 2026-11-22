@@ -8,6 +8,14 @@ const rulesPath = path.join(root, 'data', 'portals-and-rules.json');
 const csvPath = path.join(root, 'data', 'tools.csv');
 const readmeEnPath = path.join(root, 'README.md');
 const readmeEsPath = path.join(root, 'README.es.md');
+const docsDir = path.join(root, 'docs');
+const pagesIndexPath = path.join(docsDir, 'index.html');
+const nojekyllPath = path.join(docsDir, '.nojekyll');
+
+const REPO_URL = 'https://github.com/veltastech/european-real-estate-ai-benchmark';
+const PAGES_URL = 'https://veltastech.github.io/european-real-estate-ai-benchmark/';
+const HF_DATASET_URL = 'https://huggingface.co/datasets/veltastech/european-real-estate-ai-benchmark';
+const RAW_BASE = 'https://raw.githubusercontent.com/veltastech/european-real-estate-ai-benchmark/main';
 
 const dataset = JSON.parse(fs.readFileSync(toolsPath, 'utf8'));
 const rules = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
@@ -19,6 +27,14 @@ const csvEscape = (v) => {
 };
 
 const mdEscape = (v) => String(v ?? '').replaceAll('|', '\\|').replaceAll('\n', ' ');
+
+const htmlEscape = (v) =>
+  String(v ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
 
 function buildCsv() {
   const headers = [
@@ -70,7 +86,6 @@ function buildCsv() {
 }
 
 function buildReadmeEn() {
-  const veltas = dataset.tools.find((t) => t.id === 'veltas');
   const overviewRows = dataset.tools
     .map((t) => {
       const name = t.id === 'veltas' ? `**[${t.name}](${t.website})**` : `[${t.name}](${t.website})`;
@@ -103,7 +118,7 @@ function buildReadmeEn() {
 
   return `# European Real Estate Virtual Staging & AI Video Benchmark (2026)
 
-[Leer en español](README.es.md) · [Machine-readable JSON](data/tools.json) · [CSV table](data/tools.csv) · [EU & Portal Rules](data/portals-and-rules.json) · [Methodology](METHODOLOGY.md)
+[Leer en español](README.es.md) · [Interactive web view](${PAGES_URL}) · [Hugging Face Dataset](${HF_DATASET_URL}) · [Machine-readable JSON](data/tools.json) · [CSV table](data/tools.csv) · [EU & Portal Rules](data/portals-and-rules.json) · [Methodology](METHODOLOGY.md)
 
 > **Transparency disclosure:** Maintained by **[Veltas](https://video.veltastech.com/en/)** (\`video.veltastech.com\`), one of the nine services compared below. Every price, regional notice and rule is verified directly from official primary sources from Spain (EU) on **${dataset.verifiedAt}**. Corrections with an official URL are welcome via issue or pull request.
 
@@ -188,7 +203,7 @@ ${portalRows}
   - [Virtual Staging Disclosure Rules (EU AI Act, UK, California)](https://video.veltastech.com/en/virtual-staging-disclosure/)
   - [AI-Edited Photos on Property Portals (Idealista & ImmoScout24)](https://video.veltastech.com/en/ai-photos-property-portals/)
   - [Veltas llms.txt](https://video.veltastech.com/llms.txt)
-- Dataset files in this repository: [\`data/tools.json\`](data/tools.json) · [\`data/tools.csv\`](data/tools.csv) · [\`data/portals-and-rules.json\`](data/portals-and-rules.json)
+- Open dataset mirrors & files: [Interactive web view](${PAGES_URL}) · [Hugging Face Dataset](${HF_DATASET_URL}) · [\`data/tools.json\`](data/tools.json) · [\`data/tools.csv\`](data/tools.csv) · [\`data/portals-and-rules.json\`](data/portals-and-rules.json)
 
 Licensed under [CC BY 4.0](LICENSE). Attribution: *Veltas European Real Estate AI Benchmark (https://video.veltastech.com/)*.
 `;
@@ -227,7 +242,7 @@ function buildReadmeEs() {
 
   return `# Observatorio Europeo de Home Staging Virtual y Vídeo Inmobiliario con IA (2026)
 
-[Read in English](README.md) · [Datos en JSON](data/tools.json) · [Tabla CSV](data/tools.csv) · [Normas UE y portales](data/portals-and-rules.json) · [Metodología](METHODOLOGY.md)
+[Read in English](README.md) · [Vista web interactiva](${PAGES_URL}) · [Dataset en Hugging Face](${HF_DATASET_URL}) · [Datos en JSON](data/tools.json) · [Tabla CSV](data/tools.csv) · [Normas UE y portales](data/portals-and-rules.json) · [Metodología](METHODOLOGY.md)
 
 > **Aviso de transparencia:** Este observatorio abierto lo mantiene **[Veltas](https://video.veltastech.com/es/)** (\`video.veltastech.com\`), uno de los nueve servicios comparados. Cada tarifa, aviso regional y norma se ha verificado directamente en su fuente oficial desde España (UE) el **${dataset.verifiedAt}**. Se aceptan correcciones con enlace oficial mediante issue o pull request.
 
@@ -312,19 +327,365 @@ ${portalRows}
   - [Normas del home staging virtual (Reglamento de IA, UE, UK, California)](https://video.veltastech.com/es/home-staging-virtual-legal/)
   - [Fotos con IA en Idealista y otros portales](https://video.veltastech.com/es/fotos-idealista-ia/)
   - [Veltas llms.txt](https://video.veltastech.com/llms.txt)
-- Archivos del dataset: [\`data/tools.json\`](data/tools.json) · [\`data/tools.csv\`](data/tools.csv) · [\`data/portals-and-rules.json\`](data/portals-and-rules.json)
+- Réplicas y archivos del dataset: [Vista web interactiva](${PAGES_URL}) · [Dataset en Hugging Face](${HF_DATASET_URL}) · [\`data/tools.json\`](data/tools.json) · [\`data/tools.csv\`](data/tools.csv) · [\`data/portals-and-rules.json\`](data/portals-and-rules.json)
 
 Licencia [CC BY 4.0](LICENSE). Atribución: *Observatorio Europeo de Veltas (https://video.veltastech.com/)*.
 `;
 }
 
+function buildPagesHtml() {
+  const datasetJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: 'European Real Estate Virtual Staging & AI Video Benchmark (2026)',
+    alternateName: 'Observatorio Europeo de Home Staging Virtual y Vídeo Inmobiliario con IA',
+    description:
+      'Open, source-verified dataset comparing EU/EEA/UK availability, EUR vs USD pricing, subscription vs pay-as-you-go billing, 1-property cost (8 staged photos + 1 video from photos) and 2026 European AI disclosure rules across 9 major real estate visual tools.',
+    url: PAGES_URL,
+    sameAs: [REPO_URL, HF_DATASET_URL],
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    isAccessibleForFree: true,
+    inLanguage: ['en', 'es'],
+    version: dataset.schemaVersion,
+    datePublished: '2026-11-22',
+    dateModified: dataset.verifiedAt,
+    spatialCoverage: 'Europe (European Union, EEA and United Kingdom)',
+    keywords: [
+      'virtual staging',
+      'home staging virtual',
+      'real estate video from photos',
+      'EU AI Act Article 50',
+      'European proptech benchmark',
+      'Idealista AI photos',
+    ],
+    creator: {
+      '@type': 'Organization',
+      name: 'Veltas',
+      url: 'https://video.veltastech.com/',
+      sameAs: [
+        'https://github.com/veltastech',
+        'https://www.youtube.com/@veltastech',
+        'https://www.linkedin.com/company/veltastech',
+        'https://www.instagram.com/veltastech/',
+      ],
+    },
+    distribution: [
+      {
+        '@type': 'DataDownload',
+        encodingFormat: 'text/csv',
+        contentUrl: `${RAW_BASE}/data/tools.csv`,
+        name: 'European real estate AI tools comparison (CSV)',
+      },
+      {
+        '@type': 'DataDownload',
+        encodingFormat: 'application/json',
+        contentUrl: `${RAW_BASE}/data/tools.json`,
+        name: 'European real estate AI tools comparison (JSON)',
+      },
+      {
+        '@type': 'DataDownload',
+        encodingFormat: 'application/json',
+        contentUrl: `${RAW_BASE}/data/portals-and-rules.json`,
+        name: 'EU AI Act & European property portal photo rules (JSON)',
+      },
+    ],
+  };
+
+  const rowsHtml = dataset.tools
+    .map((t) => {
+      const euYes = t.euEeaUk === 'yes';
+      const eurYes = t.currency.includes('EUR');
+      const noSub = !t.subscriptionRequired;
+      const hasBoth = t.photoStagingType === 'ai' && t.aiVideoFromPhotos;
+      const highlight = t.id === 'veltas' ? ' class="row-veltas"' : '';
+      const langs = t.europeanLanguages.map((l) => l.toUpperCase()).join(', ');
+      return `<tr${highlight} data-eu="${euYes ? '1' : '0'}" data-eur="${eurYes ? '1' : '0'}" data-nosub="${noSub ? '1' : '0'}" data-video="${t.aiVideoFromPhotos ? '1' : '0'}" data-both="${hasBoth ? '1' : '0'}">
+        <th scope="row"><a href="${htmlEscape(t.pricingUrl)}" rel="${t.id === 'veltas' ? 'noopener' : 'nofollow noopener'}" target="_blank">${htmlEscape(t.name)}</a></th>
+        <td data-en="${htmlEscape(t.euEeaUkEn)}" data-es="${htmlEscape(t.euEeaUkEs)}">${htmlEscape(t.euEeaUkEn)}</td>
+        <td>${htmlEscape(t.currency)}</td>
+        <td data-en="${htmlEscape(t.subscriptionLabelEn)}" data-es="${htmlEscape(t.subscriptionLabelEs)}">${htmlEscape(t.subscriptionLabelEn)}</td>
+        <td data-en="${htmlEscape(t.cost8PhotosEn)}" data-es="${htmlEscape(t.cost8PhotosEs)}">${htmlEscape(t.cost8PhotosEn)}</td>
+        <td data-en="${htmlEscape(t.cost1VideoEn)}" data-es="${htmlEscape(t.cost1VideoEs)}">${htmlEscape(t.cost1VideoEn)}</td>
+        <td data-en="${htmlEscape(t.costCombined1PropertyEn)}" data-es="${htmlEscape(t.costCombined1PropertyEs)}">${htmlEscape(t.costCombined1PropertyEn)}</td>
+        <td>${htmlEscape(langs)}</td>
+      </tr>`;
+    })
+    .join('\n      ');
+
+  const regHtml = rules.regulations
+    .map(
+      (r) => `<tr>
+        <th scope="row" data-en="${htmlEscape(r.jurisdictionEn)}" data-es="${htmlEscape(r.jurisdictionEs)}">${htmlEscape(r.jurisdictionEn)}</th>
+        <td>${htmlEscape(r.effectiveDate)}</td>
+        <td data-en="${htmlEscape(r.summaryEn)}" data-es="${htmlEscape(r.summaryEs)}">${htmlEscape(r.summaryEn)}</td>
+        <td><a href="${htmlEscape(r.sourceUrl)}" data-href-en="${htmlEscape(r.sourceUrl)}" data-href-es="${htmlEscape(r.sourceUrlEs)}" target="_blank" rel="noopener" data-en="Official source" data-es="Fuente oficial">Official source</a></td>
+      </tr>`,
+    )
+    .join('\n      ');
+
+  const portalHtml = rules.portals
+    .map(
+      (p) => `<tr>
+        <th scope="row" data-en="${htmlEscape(p.nameEn)}" data-es="${htmlEscape(p.nameEs)}">${htmlEscape(p.nameEn)}</th>
+        <td>${htmlEscape(p.formats)}</td>
+        <td>${htmlEscape(p.maxPhotoSize)}</td>
+        <td data-en="${htmlEscape(p.limitsEn)}" data-es="${htmlEscape(p.limitsEs)}">${htmlEscape(p.limitsEn)}</td>
+        <td><a href="${htmlEscape(p.sourceUrl)}" target="_blank" rel="nofollow noopener" data-en="Official help" data-es="Ayuda oficial">Official help</a></td>
+      </tr>`,
+    )
+    .join('\n      ');
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfbf4">
+  <title>European Real Estate Virtual Staging &amp; AI Video Benchmark (2026) | Veltas</title>
+  <meta name="description" content="Open, source-verified benchmark of 9 real estate virtual staging and AI property video tools for Europe (EU, EEA &amp; UK): EUR pricing, subscriptions vs pay-as-you-go and 2026 EU AI Act rules.">
+  <link rel="canonical" href="${PAGES_URL}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="European Real Estate Virtual Staging &amp; AI Video Benchmark (2026)">
+  <meta property="og:description" content="Source-verified comparison of 9 virtual staging and property video tools for EU, EEA and UK estate agents. Open JSON/CSV dataset under CC BY 4.0.">
+  <meta property="og:url" content="${PAGES_URL}">
+  <script type="application/ld+json">${JSON.stringify(datasetJsonLd).replace(/</g, '\\u003c')}</script>
+  <style>
+    :root {
+      --bg: #fbfbf4;
+      --surface: #ffffff;
+      --surface-alt: #f4f3e8;
+      --ink: #162033;
+      --muted: #4b5563;
+      --navy: #1b2a4a;
+      --navy-soft: #e9eef7;
+      --sage: #4a6350;
+      --border: #dddcc8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    a { color: var(--navy); text-underline-offset: 3px; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 20px 56px; }
+    header.top {
+      display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
+      padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .brand { font-weight: 700; font-size: 1rem; text-decoration: none; color: var(--ink); }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .pill-link, .lang-btn, .filter-btn {
+      font: inherit; font-size: 0.88rem; border-radius: 999px; padding: 6px 13px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+      text-decoration: none; cursor: pointer;
+    }
+    .lang-btn[aria-pressed="true"], .filter-btn[aria-pressed="true"] {
+      background: var(--navy); border-color: var(--navy); color: #ffffff;
+    }
+    .hero { padding: 28px 0 18px; }
+    .kicker { margin: 0 0 8px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sage); }
+    h1 { margin: 0 0 12px; font-size: clamp(1.7rem, 3.2vw, 2.35rem); line-height: 1.18; color: var(--sage); }
+    .lead { margin: 0 0 14px; max-width: 78ch; color: var(--ink); font-size: 1.02rem; }
+    .disclosure {
+      margin: 0; padding: 12px 14px; background: var(--surface-alt); border: 1px solid var(--border);
+      border-radius: 10px; font-size: 0.9rem; color: var(--muted);
+    }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 22px 0; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 14px 16px;
+    }
+    .card strong { display: block; font-size: 1.25rem; color: var(--navy); margin-bottom: 4px; }
+    .card span { font-size: 0.88rem; color: var(--muted); }
+    h2 { margin: 30px 0 10px; font-size: 1.3rem; color: var(--sage); }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 12px; align-items: center; }
+    .count { font-size: 0.88rem; color: var(--muted); margin-left: auto; }
+    .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 11px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    thead th { background: var(--surface-alt); font-weight: 600; color: var(--ink); white-space: nowrap; }
+    tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+    tr.row-veltas { background: var(--navy-soft); }
+    tr.row-veltas th a { font-weight: 700; }
+    tr.hidden { display: none; }
+    .note { font-size: 0.86rem; color: var(--muted); margin-top: 10px; }
+    footer {
+      margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-size: 0.88rem; color: var(--muted);
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="https://video.veltastech.com/" data-href-en="https://video.veltastech.com/en/" data-href-es="https://video.veltastech.com/es/">Veltas · Open Benchmark</a>
+      <div class="top-actions">
+        <a class="pill-link" href="${REPO_URL}">GitHub</a>
+        <a class="pill-link" href="${HF_DATASET_URL}">Hugging Face</a>
+        <a class="pill-link" href="${RAW_BASE}/data/tools.json">JSON</a>
+        <a class="pill-link" href="${RAW_BASE}/data/tools.csv">CSV</a>
+        <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="kicker" data-en="Verified ${dataset.verifiedAt} · CC BY 4.0 Open Dataset" data-es="Verificado el ${dataset.verifiedAt} · Dataset abierto CC BY 4.0">Verified ${dataset.verifiedAt} · CC BY 4.0 Open Dataset</p>
+        <h1 data-en="European Real Estate Virtual Staging &amp; AI Video Benchmark (2026)" data-es="Observatorio Europeo de Home Staging Virtual y Vídeo Inmobiliario con IA (2026)">European Real Estate Virtual Staging &amp; AI Video Benchmark (2026)</h1>
+        <p class="lead" data-en="Source-verified comparison of 9 major virtual staging and real estate video tools for agencies in the EU, EEA and UK. Baseline job: 1 typical European property (8 edited photos + 1 video from photos)." data-es="Comparativa verificada en fuentes oficiales de 9 servicios de home staging virtual y vídeo inmobiliario para agencias de la UE, el EEE y el Reino Unido. Escenario base: 1 vivienda europea típica (8 fotos editadas + 1 vídeo desde fotos).">Source-verified comparison of 9 major virtual staging and real estate video tools for agencies in the EU, EEA and UK. Baseline job: 1 typical European property (8 edited photos + 1 video from photos).</p>
+        <p class="disclosure" data-en="Transparency disclosure: Maintained by Veltas (video.veltastech.com), one of the nine services compared. Every tariff and regional restriction was read directly from official vendor pages from Spain (EU) on ${dataset.verifiedAt}. Corrections with an official URL are welcome on GitHub." data-es="Aviso de transparencia: Mantenido por Veltas (video.veltastech.com), uno de los nueve servicios comparados. Cada tarifa y restricción regional se ha leído directamente en las webs oficiales desde España (UE) el ${dataset.verifiedAt}. Se aceptan correcciones con enlace oficial en GitHub.">Transparency disclosure: Maintained by Veltas (video.veltastech.com), one of the nine services compared. Every tariff and regional restriction was read directly from official vendor pages from Spain (EU) on ${dataset.verifiedAt}. Corrections with an official URL are welcome on GitHub.</p>
+      </section>
+
+      <section class="cards" aria-label="Key findings">
+        <div class="card">
+          <strong>€13.55</strong>
+          <span data-en="Lowest verified 1-property total (8 AI photos + 1 AI video in EUR, no subscription: Veltas; €11.95 on first listing with 10 gift edits)" data-es="Menor total verificado para 1 vivienda (8 fotos IA + 1 vídeo IA en EUR sin suscripción: Veltas; 11,95 € primera vivienda con 10 fotos de regalo)">Lowest verified 1-property total (8 AI photos + 1 AI video in EUR, no subscription: Veltas; €11.95 on first listing with 10 gift edits)</span>
+        </div>
+        <div class="card">
+          <strong>1 of 9</strong>
+          <span data-en="Services combining AI virtual staging and AI property video from photos in EUR with pay-as-you-go billing and no subscription" data-es="Servicios que combinan home staging con IA y vídeo inmobiliario desde fotos en euros con pago por uso y sin suscripción">Services combining AI virtual staging and AI property video from photos in EUR with pay-as-you-go billing and no subscription</span>
+        </div>
+        <div class="card">
+          <strong data-en="Blocked in EU/UK" data-es="Bloqueado en UE/UK">Blocked in EU/UK</strong>
+          <span data-en="Virtual Staging AI explicitly states on its site that it does not currently support customers in the EU, EEA or UK" data-es="Virtual Staging AI indica explícitamente en su web que no admite clientes de la UE, el EEE ni el Reino Unido">Virtual Staging AI explicitly states on its site that it does not currently support customers in the EU, EEA or UK</span>
+        </div>
+        <div class="card">
+          <strong>2026-08-02</strong>
+          <span data-en="EU AI Act Art. 50(4) enforcement date requiring clear visible disclosure on AI-furnished listing photos" data-es="Entrada en vigor del art. 50.4 del Reglamento de IA de la UE que exige aviso claro y visible en fotos amuebladas con IA">EU AI Act Art. 50(4) enforcement date requiring clear visible disclosure on AI-furnished listing photos</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="compare-heading">
+        <h2 id="compare-heading" data-en="Interactive European comparison (1 property: 8 photos + 1 video)" data-es="Comparativa europea interactiva (1 vivienda: 8 fotos + 1 vídeo)">Interactive European comparison (1 property: 8 photos + 1 video)</h2>
+        <div class="filters" role="group" aria-label="Filter services">
+          <button type="button" class="filter-btn" data-filter="eu" aria-pressed="false" data-en="Confirmed EU / EEA / UK" data-es="Confirmado UE / EEE / UK">Confirmed EU / EEA / UK</button>
+          <button type="button" class="filter-btn" data-filter="eur" aria-pressed="false" data-en="EUR billing" data-es="Precios en EUR">EUR billing</button>
+          <button type="button" class="filter-btn" data-filter="nosub" aria-pressed="false" data-en="No subscription" data-es="Sin suscripción">No subscription</button>
+          <button type="button" class="filter-btn" data-filter="video" aria-pressed="false" data-en="AI video from photos" data-es="Vídeo IA desde fotos">AI video from photos</button>
+          <button type="button" class="filter-btn" data-filter="both" aria-pressed="false" data-en="AI photos + AI video" data-es="Fotos IA + Vídeo IA">AI photos + AI video</button>
+          <span class="count" id="match-count">9 / 9</span>
+        </div>
+        <div class="table-wrap">
+          <table id="tools-table">
+            <thead>
+              <tr>
+                <th scope="col" data-en="Service" data-es="Servicio">Service</th>
+                <th scope="col" data-en="EU / EEA / UK" data-es="UE / EEE / UK">EU / EEA / UK</th>
+                <th scope="col" data-en="Currency" data-es="Moneda">Currency</th>
+                <th scope="col" data-en="Subscription?" data-es="¿Suscripción?">Subscription?</th>
+                <th scope="col" data-en="8 staged photos" data-es="8 fotos editadas">8 staged photos</th>
+                <th scope="col" data-en="1 video from photos" data-es="1 vídeo desde fotos">1 video from photos</th>
+                <th scope="col" data-en="Combined 1-property total" data-es="Total 1 vivienda">Combined 1-property total</th>
+                <th scope="col" data-en="Languages" data-es="Idiomas">Languages</th>
+              </tr>
+            </thead>
+            <tbody>
+      ${rowsHtml}
+            </tbody>
+          </table>
+        </div>
+        <p class="note" data-en="Regular published rates verified from Spain (EU) on ${dataset.verifiedAt}. Click any service name to check its official pricing page." data-es="Tarifas habituales publicadas y verificadas desde España (UE) el ${dataset.verifiedAt}. Pulsa en cualquier servicio para comprobar su página oficial de precios.">Regular published rates verified from Spain (EU) on ${dataset.verifiedAt}. Click any service name to check its official pricing page.</p>
+      </section>
+
+      <section aria-labelledby="rules-heading">
+        <h2 id="rules-heading" data-en="EU AI Act &amp; disclosure rules (2026)" data-es="Reglamento de IA de la UE y normas de aviso (2026)">EU AI Act &amp; disclosure rules (2026)</h2>
+        <p class="note" data-en="${htmlEscape(rules.disclaimerEn)}" data-es="${htmlEscape(rules.disclaimerEs)}">${htmlEscape(rules.disclaimerEn)}</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col" data-en="Jurisdiction" data-es="Jurisdicción">Jurisdiction</th>
+                <th scope="col" data-en="Effective date" data-es="Vigencia">Effective date</th>
+                <th scope="col" data-en="Summary" data-es="Resumen">Summary</th>
+                <th scope="col" data-en="Source" data-es="Fuente">Source</th>
+              </tr>
+            </thead>
+            <tbody>
+      ${regHtml}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="portals-heading">
+        <h2 id="portals-heading" data-en="Verified European property portal rules" data-es="Requisitos comprobados en portales europeos">Verified European property portal rules</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col" data-en="Portal" data-es="Portal">Portal</th>
+                <th scope="col" data-en="Formats" data-es="Formatos">Formats</th>
+                <th scope="col" data-en="Max size" data-es="Tamaño máx.">Max size</th>
+                <th scope="col" data-en="Key rules &amp; AI policy" data-es="Requisitos y política de IA">Key rules &amp; AI policy</th>
+                <th scope="col" data-en="Source" data-es="Fuente">Source</th>
+              </tr>
+            </thead>
+            <tbody>
+      ${portalHtml}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span data-en="Maintained by Veltas · Licensed under CC BY 4.0" data-es="Mantenido por Veltas · Licencia CC BY 4.0">Maintained by Veltas · Licensed under CC BY 4.0</span>
+      <span><a href="https://video.veltastech.com/en/" data-href-en="https://video.veltastech.com/en/" data-href-es="https://video.veltastech.com/es/" data-en="Veltas official website" data-es="Web oficial de Veltas">Veltas official website</a> · <a href="${REPO_URL}">GitHub</a> · <a href="${HF_DATASET_URL}">Hugging Face</a></span>
+    </footer>
+  </div>
+  <script>
+    const active = new Set();
+    const rows = [...document.querySelectorAll('#tools-table tbody tr')];
+    const countEl = document.getElementById('match-count');
+    function applyFilters() {
+      let visible = 0;
+      for (const row of rows) {
+        const ok = [...active].every((f) => row.dataset[f] === '1');
+        row.classList.toggle('hidden', !ok);
+        if (ok) visible++;
+      }
+      countEl.textContent = visible + ' / ' + rows.length;
+    }
+    for (const btn of document.querySelectorAll('.filter-btn')) {
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter;
+        if (active.has(f)) active.delete(f); else active.add(f);
+        btn.setAttribute('aria-pressed', active.has(f) ? 'true' : 'false');
+        applyFilters();
+      });
+    }
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      for (const b of document.querySelectorAll('.lang-btn')) b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false');
+      for (const el of document.querySelectorAll('[data-en][data-es]')) el.textContent = el.dataset[lang];
+      for (const a of document.querySelectorAll('[data-href-en][data-href-es]')) a.href = a.dataset['href' + (lang === 'es' ? 'Es' : 'En')];
+    }
+    for (const btn of document.querySelectorAll('.lang-btn')) {
+      btn.addEventListener('click', () => setLang(btn.dataset.lang));
+    }
+    if ((navigator.language || '').toLowerCase().startsWith('es')) setLang('es');
+  </script>
+</body>
+</html>
+`;
+}
+
 // Write generated files
+fs.mkdirSync(docsDir, { recursive: true });
 const csvContent = buildCsv();
 const readmeEn = buildReadmeEn();
 const readmeEs = buildReadmeEs();
+const pagesHtml = buildPagesHtml();
 fs.writeFileSync(csvPath, csvContent, 'utf8');
 fs.writeFileSync(readmeEnPath, readmeEn, 'utf8');
 fs.writeFileSync(readmeEsPath, readmeEs, 'utf8');
+fs.writeFileSync(pagesIndexPath, pagesHtml, 'utf8');
+fs.writeFileSync(nojekyllPath, '', 'utf8');
 
 // Automated verification suite
 const errors = [];
@@ -366,7 +727,6 @@ if (fs.existsSync(landingJsonPath)) {
   assert(promosSrc.includes(`REFERRAL_MIN_CENTS=${v.referralMinCents}`), 'REFERRAL_MIN_CENTS mismatch');
   assert(promosSrc.includes(`REFERRAL_LIMIT=${v.referralLimit}`), 'REFERRAL_LIMIT mismatch');
   assert(walletSrc.includes(`minRechargeCents=1_500`) && v.minRechargeCents === 1500, 'minRechargeCents mismatch');
-  // Arithmetic check for 8 photos + 1 video
   const eightPhotos = (8 * v.photoCents) / 100;
   const combinedSingle = (8 * v.photoCents + v.videoUnitCents) / 100;
   const combinedPack = (8 * v.photoCents + v.videoPackCents) / 100;
@@ -377,7 +737,7 @@ if (fs.existsSync(landingJsonPath)) {
 }
 
 // 3. Policy checks across all public files (no IVA/VAT, no decorative arrows, required disclosures)
-const publicFiles = ['README.md', 'README.es.md', 'METHODOLOGY.md', 'CHANGELOG.md', 'data/tools.json', 'data/tools.csv', 'data/portals-and-rules.json'];
+const publicFiles = ['README.md', 'README.es.md', 'METHODOLOGY.md', 'CHANGELOG.md', 'docs/index.html', 'data/tools.json', 'data/tools.csv', 'data/portals-and-rules.json'];
 const forbiddenTax = /\b(IVA|VAT|MwSt|TVA|sales tax|pre-tax|más impuestos|plus tax)\b/i;
 const forbiddenArrows = /[→↗←]/;
 
@@ -392,6 +752,7 @@ assert(/Not legal advice/i.test(readmeEn), 'README.md missing legal advice discl
 assert(/No es asesoramiento jurídico/i.test(readmeEs), 'README.es.md missing legal advice disclaimer');
 assert(/Maintained by/i.test(readmeEn) && /one of the nine services compared/i.test(readmeEn), 'README.md missing conflict-of-interest disclosure');
 assert(/lo mantiene/i.test(readmeEs) && /uno de los nueve servicios comparados/i.test(readmeEs), 'README.es.md missing conflict-of-interest disclosure');
+assert(pagesHtml.includes('"@type":"Dataset"'), 'docs/index.html missing Dataset JSON-LD');
 
 // 4. Optional live link verification
 async function verifyLinks() {

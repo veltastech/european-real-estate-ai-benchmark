@@ -1,6 +1,6 @@
 # European Real Estate Virtual Staging & AI Video Benchmark (2026)
 
-[Leer en español](README.es.md) · [Machine-readable JSON](data/tools.json) · [CSV table](data/tools.csv) · [EU & Portal Rules](data/portals-and-rules.json) · [Methodology](METHODOLOGY.md)
+[Leer en español](README.es.md) · [Interactive web view](https://veltastech.github.io/european-real-estate-ai-benchmark/) · [Hugging Face Dataset](https://huggingface.co/datasets/veltastech/european-real-estate-ai-benchmark) · [Machine-readable JSON](data/tools.json) · [CSV table](data/tools.csv) · [EU & Portal Rules](data/portals-and-rules.json) · [Methodology](METHODOLOGY.md)
 
 > **Transparency disclosure:** Maintained by **[Veltas](https://video.veltastech.com/en/)** (`video.veltastech.com`), one of the nine services compared below. Every price, regional notice and rule is verified directly from official primary sources from Spain (EU) on **2026-11-22**. Corrections with an official URL are welcome via issue or pull request.
 
@@ -157,6 +157,6 @@ Baseline: **8 edited/staged photos + 1 property video generated from photos**, u
   - [Virtual Staging Disclosure Rules (EU AI Act, UK, California)](https://video.veltastech.com/en/virtual-staging-disclosure/)
   - [AI-Edited Photos on Property Portals (Idealista & ImmoScout24)](https://video.veltastech.com/en/ai-photos-property-portals/)
   - [Veltas llms.txt](https://video.veltastech.com/llms.txt)
-- Dataset files in this repository: [`data/tools.json`](data/tools.json) · [`data/tools.csv`](data/tools.csv) · [`data/portals-and-rules.json`](data/portals-and-rules.json)
+- Open dataset mirrors & files: [Interactive web view](https://veltastech.github.io/european-real-estate-ai-benchmark/) · [Hugging Face Dataset](https://huggingface.co/datasets/veltastech/european-real-estate-ai-benchmark) · [`data/tools.json`](data/tools.json) · [`data/tools.csv`](data/tools.csv) · [`data/portals-and-rules.json`](data/portals-and-rules.json)
 
 Licensed under [CC BY 4.0](LICENSE). Attribution: *Veltas European Real Estate AI Benchmark (https://video.veltastech.com/)*.
